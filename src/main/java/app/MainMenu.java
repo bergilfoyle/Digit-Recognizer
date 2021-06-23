@@ -16,11 +16,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.nd4j.common.io.ResourceUtils;
-
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
@@ -66,7 +63,7 @@ public class MainMenu {
         root.setBottom(bottomBox);
 
         FileChooser fChooser = new FileChooser();
-        fChooser.setInitialDirectory(ResourceUtils.getFile("classpath:models"));
+        fChooser.setInitialDirectory(new File("/home/roger/models"));
 
         createButton.setOnAction(actionEvent -> {
             String problem = problemChoice.getValue();

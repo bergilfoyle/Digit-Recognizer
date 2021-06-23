@@ -105,7 +105,7 @@ public class ModelConfiguration {
         });
 
         FileChooser fChooser = new FileChooser();
-        fChooser.setInitialDirectory(ResourceUtils.getFile("classpath:models"));
+        fChooser.setInitialDirectory(new File("/home/roger/models"));
         saveModelButton.setOnAction(actionEvent -> {
             File saveLocation = fChooser.showSaveDialog(new Stage());
             try {
