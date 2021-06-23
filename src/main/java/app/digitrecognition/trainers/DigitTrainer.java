@@ -12,7 +12,6 @@ import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.deeplearning4j.nn.weights.WeightInit;
 import org.deeplearning4j.optimize.listeners.ScoreIterationListener;
 import org.deeplearning4j.util.ModelSerializer;
-import org.nd4j.common.io.ResourceUtils;
 import org.nd4j.evaluation.classification.Evaluation;
 import org.nd4j.linalg.activations.Activation;
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
@@ -27,7 +26,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -38,11 +36,9 @@ public class DigitTrainer {
     private static final Logger LOGGER = LoggerFactory.getLogger(DigitTrainer.class);
     private static final String BASE_PATH = "/home/roger";
     private static final int height = 28, width = 28, channels = 1;
-    public static Layer[] layerList = new Layer[nLayers];
 
     public static MultiLayerNetwork buildModel() {
         int seed = 1234;
-        Random randNumGen = new Random(seed);
         Map<Integer, Double> learningRateSchedule = new HashMap<>();
         learningRateSchedule.put(0, 0.06);
         learningRateSchedule.put(200, 0.05);
@@ -60,10 +56,10 @@ public class DigitTrainer {
                 case "Input" -> {
                     Activation a;
                     switch(layerProp[i]) {
-                        case "RELU" -> {a = Activation.RELU;}
-                        case "IDENTITY" -> {a = Activation.IDENTITY;}
-                        case "SIGMOID" -> {a = Activation.SIGMOID;}
-                        case "TANH" -> {a=Activation.TANH;}
+                        case "RELU" -> a = Activation.RELU;
+                        case "IDENTITY" -> a = Activation.IDENTITY;
+                        case "SIGMOID" -> a = Activation.SIGMOID;
+                        case "TANH" -> a=Activation.TANH;
                         default -> throw new IllegalStateException("Unexpected value: " + layerProp[i]);
                     }
                     b.layer(i, new ConvolutionLayer.Builder(layerFilterSize[i], layerFilterSize[i])
@@ -75,10 +71,10 @@ public class DigitTrainer {
                 case "Convolution" -> {
                     Activation a;
                     switch(layerProp[i]) {
-                        case "RELU" -> {a = Activation.RELU;}
-                        case "IDENTITY" -> {a = Activation.IDENTITY;}
-                        case "SIGMOID" -> {a = Activation.SIGMOID;}
-                        case "TANH" -> {a=Activation.TANH;}
+                        case "RELU" -> a = Activation.RELU;
+                        case "IDENTITY" -> a = Activation.IDENTITY;
+                        case "SIGMOID" -> a = Activation.SIGMOID;
+                        case "TANH" -> a=Activation.TANH;
                         default -> throw new IllegalStateException("Unexpected value: " + layerProp[i]);
                     }
                     b.layer(i, new ConvolutionLayer.Builder(layerFilterSize[i], layerFilterSize[i])
@@ -89,8 +85,8 @@ public class DigitTrainer {
                 case "Pooling" -> {
                     SubsamplingLayer.PoolingType p;
                     switch (layerProp[i]) {
-                        case "AVERAGE" -> {p = SubsamplingLayer.PoolingType.AVG;}
-                        case "MAX" -> {p = SubsamplingLayer.PoolingType.MAX;}
+                        case "AVERAGE" -> p = SubsamplingLayer.PoolingType.AVG;
+                        case "MAX" -> p = SubsamplingLayer.PoolingType.MAX;
                         default -> throw new IllegalStateException("Unexpected value: " + layerProp[i]);
                     }
                     b.layer(i, new SubsamplingLayer.Builder(p)
@@ -101,10 +97,10 @@ public class DigitTrainer {
                 case "Dense" -> {
                     Activation a;
                     switch(layerProp[i]) {
-                        case "RELU" -> {a = Activation.RELU;}
-                        case "IDENTITY" -> {a = Activation.IDENTITY;}
-                        case "SIGMOID" -> {a = Activation.SIGMOID;}
-                        case "TANH" -> {a=Activation.TANH;}
+                        case "RELU" -> a = Activation.RELU;
+                        case "IDENTITY" -> a = Activation.IDENTITY;
+                        case "SIGMOID" -> a = Activation.SIGMOID;
+                        case "TANH" -> a=Activation.TANH;
                         default -> throw new IllegalStateException("Unexpected value: " + layerProp[i]);
                     }
                     b.layer(i, new DenseLayer.Builder()
@@ -115,17 +111,17 @@ public class DigitTrainer {
                     Activation a;
                     LossFunctions.LossFunction l;
                     switch(layerProp[i]) {
-                        case "RELU" -> {a = Activation.RELU;}
-                        case "IDENTITY" -> {a = Activation.IDENTITY;}
-                        case "SIGMOID" -> {a = Activation.SIGMOID;}
-                        case "TANH" -> {a=Activation.TANH;}
-                        case "SOFTMAX" -> {a=Activation.SOFTMAX;}
+                        case "RELU" -> a = Activation.RELU;
+                        case "IDENTITY" -> a = Activation.IDENTITY;
+                        case "SIGMOID" -> a = Activation.SIGMOID;
+                        case "TANH" -> a=Activation.TANH;
+                        case "SOFTMAX" -> a=Activation.SOFTMAX;
                         default -> throw new IllegalStateException("Unexpected value: " + layerProp[i]);
                     }
                     switch(lossType) {
-                        case "MSE" -> {l = LossFunctions.LossFunction.MSE;}
-                        case "MAE" -> {l = LossFunctions.LossFunction.MEAN_ABSOLUTE_ERROR;}
-                        case "NEGATIVELOGLIKELIHOOD" -> {l = LossFunctions.LossFunction.NEGATIVELOGLIKELIHOOD;}
+                        case "MSE" -> l = LossFunctions.LossFunction.MSE;
+                        case "MAE" -> l = LossFunctions.LossFunction.MEAN_ABSOLUTE_ERROR;
+                        case "NEGATIVELOGLIKELIHOOD" -> l = LossFunctions.LossFunction.NEGATIVELOGLIKELIHOOD;
                         default -> throw new IllegalStateException("Unexpected value: " + lossType);
                     }
                     b.layer(i, new OutputLayer.Builder(l)
@@ -142,7 +138,6 @@ public class DigitTrainer {
 
     public static MultiLayerNetwork buildModel1() {
         int seed = 1234;
-        Random randNumGen = new Random(seed);
         Map<Integer, Double> learningRateSchedule = new HashMap<>();
         learningRateSchedule.put(0, 0.06);
         learningRateSchedule.put(200, 0.05);
@@ -187,7 +182,7 @@ public class DigitTrainer {
         return new MultiLayerNetwork(conf);
     }
 
-    public static void train(MultiLayerNetwork net) throws IOException, URISyntaxException {
+    public static void train(MultiLayerNetwork net) throws IOException {
         int seed = 1234;
         Random randNumGen = new Random(seed);
         LOGGER.info("Data vectorization...");
