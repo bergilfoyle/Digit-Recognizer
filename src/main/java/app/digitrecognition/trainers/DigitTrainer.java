@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -118,6 +119,7 @@ public class DigitTrainer {
                         case "IDENTITY" -> {a = Activation.IDENTITY;}
                         case "SIGMOID" -> {a = Activation.SIGMOID;}
                         case "TANH" -> {a=Activation.TANH;}
+                        case "SOFTMAX" -> {a=Activation.SOFTMAX;}
                         default -> throw new IllegalStateException("Unexpected value: " + layerProp[i]);
                     }
                     switch(lossType) {
@@ -185,7 +187,7 @@ public class DigitTrainer {
         return new MultiLayerNetwork(conf);
     }
 
-    public static void train(MultiLayerNetwork net) throws IOException {
+    public static void train(MultiLayerNetwork net) throws IOException, URISyntaxException {
         int seed = 1234;
         Random randNumGen = new Random(seed);
         LOGGER.info("Data vectorization...");
@@ -230,7 +232,7 @@ public class DigitTrainer {
             testIter.reset();
         }
 
-        File ministModelPath = ResourceUtils.getFile("/home/roger/check.zip");
+        File ministModelPath = new File("/home/roger/check.zip");
         ModelSerializer.writeModel(net, ministModelPath, true);
         LOGGER.info("The MINIST model has been saved in {}", ministModelPath.getPath());
     }

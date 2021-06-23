@@ -37,7 +37,7 @@ public class LayerConfiguration {
         grid.setVgap(10);
         scroll.setContent(grid);
         grid.setPadding(new Insets(25, 25, 25, 25));
-        Scene scene = new Scene(root, 1000, 500);
+        Scene scene = new Scene(root, 700, 500);
         scene.getStylesheets().add("/styles/style.css");
         primaryStage.setScene(scene);
 

@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import org.nd4j.common.io.ResourceUtils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -71,7 +72,11 @@ public class MainMenu {
             String problem = problemChoice.getValue();
             switch (problem) {
                 case "Digit Recognition" -> {
-                    ModelConfiguration.configureModel(primaryStage);
+                    try {
+                        ModelConfiguration.configureModel(primaryStage);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
                 }
                 case "Problem 2" -> {
                     System.out.println("boo");

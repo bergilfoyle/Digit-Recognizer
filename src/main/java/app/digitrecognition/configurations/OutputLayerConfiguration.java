@@ -41,7 +41,7 @@ public class OutputLayerConfiguration {
         TextField nFiltersField = new TextField();
         grid.add(nFiltersField, 1, 1);
 
-        ArrayList<String> propChoiceList = new ArrayList<>(Arrays.asList("IDENTITY", "RELU", "SIGMOID", "TANH"));
+        ArrayList<String> propChoiceList = new ArrayList<>(Arrays.asList("IDENTITY", "RELU", "SIGMOID", "TANH", "SOFTMAX"));
         Label propLabel = new Label("Activation function: ");
         grid.add(propLabel, 0, 2);
         ChoiceBox<String> propChoice = new ChoiceBox<>(FXCollections.observableArrayList(propChoiceList));

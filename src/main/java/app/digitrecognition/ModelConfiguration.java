@@ -1,4 +1,5 @@
 package app.digitrecognition;
+import app.MainMenu;
 import app.digitrecognition.trainers.DigitTrainer;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -9,16 +10,21 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
+import org.deeplearning4j.util.ModelSerializer;
+import org.nd4j.common.io.ResourceUtils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Objects;
 
 public class ModelConfiguration {
-    public static void configureModel(Stage primaryStage) {
+    public static MultiLayerNetwork net;
+    public static void configureModel(Stage primaryStage) throws FileNotFoundException {
         primaryStage.setHeight(500);
         primaryStage.setWidth(500);
         primaryStage.setResizable(false);
@@ -59,6 +65,8 @@ public class ModelConfiguration {
         TextField nEpochsField = new TextField();
         grid.add(nEpochsField, 1, 2);
 
+        Text message = new Text();
+        grid.add(message, 0, 3);
         configureLayersButton.setOnAction(actionEvent -> {
             try {
                 Parameters.nLayers = Integer.parseInt(nLayersField.getText());
@@ -72,7 +80,6 @@ public class ModelConfiguration {
             }
         });
 
-        FileChooser fChooser = new FileChooser();
         Button saveModelButton = new Button("Save Model");
         saveModelButton.getStyleClass().add("button2");
         Button trainModelButton = new Button("Train Model");
@@ -83,17 +90,37 @@ public class ModelConfiguration {
                 Parameters.batchSize = Integer.parseInt(batchSizeField.getText());
                 Parameters.nEpochs = Integer.parseInt(nEpochsField.getText());
                 Parameters.nLayers = Integer.parseInt(nLayersField.getText());
-                MultiLayerNetwork net = DigitTrainer.buildModel();
+                net = DigitTrainer.buildModel();
                 DigitTrainer.train(net);
+                message.setText("The model has been trained.");
             } catch (IOException e) {
                 Alert alertWindow = new Alert(Alert.AlertType.NONE, "default Dialog", ButtonType.OK);
                 alertWindow.setContentText("Invalid parameters!");
                 alertWindow.setTitle("Error");
                 alertWindow.setGraphic(new ImageView(new Image(Objects.requireNonNull(ModelConfiguration.class.getResourceAsStream("/icons/error.png")))));
                 alertWindow.show();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
 
+        FileChooser fChooser = new FileChooser();
+        fChooser.setInitialDirectory(ResourceUtils.getFile("classpath:models"));
+        saveModelButton.setOnAction(actionEvent -> {
+            File saveLocation = fChooser.showSaveDialog(new Stage());
+            try {
+                ModelSerializer.writeModel(net, saveLocation, true);
+                MainMenu.start(primaryStage);
+            } catch (IOException e) {
+                Alert alertWindow = new Alert(Alert.AlertType.NONE, "default Dialog", ButtonType.OK);
+                alertWindow.setContentText("Unable to save model!");
+                alertWindow.setTitle("Error");
+                alertWindow.setGraphic(new ImageView(new Image(Objects.requireNonNull(ModelConfiguration.class.getResourceAsStream("/icons/error.png")))));
+                alertWindow.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
         HBox bottomBox = new HBox(10, trainModelButton, saveModelButton);
         bottomBox.setAlignment(Pos.BOTTOM_RIGHT);
         bottomBox.getStyleClass().add("bottomBox");
