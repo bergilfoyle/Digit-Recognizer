@@ -20,9 +20,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeLineCap;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.datavec.image.loader.NativeImageLoader;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
+import org.deeplearning4j.util.ModelSerializer;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dataset.api.preprocessor.ImagePreProcessingScaler;
 
@@ -37,8 +39,14 @@ public class Recognizer {
     static private final int CANVAS_HEIGHT = 250;
     static private NativeImageLoader loader;
     static private Label lblResult;
+
     public static void loadModel(File modelLocation) throws IOException {
         model = MultiLayerNetwork.load(modelLocation, true);
+    }
+    public static void saveModel(MultiLayerNetwork m, File modelLocation) throws IOException {
+        FileChooser fChooser = new FileChooser();
+        File savedFile = fChooser.showSaveDialog(new Stage());
+        ModelSerializer.writeModel(m, savedFile, true);
     }
     public static void recognizedigit(Stage primaryStage) {
         Canvas canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);

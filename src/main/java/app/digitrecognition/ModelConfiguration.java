@@ -1,6 +1,4 @@
 package app.digitrecognition;
-
-import app.menubars.MainMenuBarBuilder;
 import app.digitrecognition.trainers.DigitTrainer;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -11,18 +9,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
 public class ModelConfiguration {
-    public static Parameters parameters = new Parameters();
-    static String modelStatus = "good";
     public static void configureModel(Stage primaryStage) {
         primaryStage.setHeight(500);
         primaryStage.setWidth(500);
@@ -66,8 +61,8 @@ public class ModelConfiguration {
 
         configureLayersButton.setOnAction(actionEvent -> {
             try {
-                parameters.nLayers = Integer.parseInt(nLayersField.getText());
-                LayerConfiguration.configure(new Stage(), parameters.nLayers);
+                Parameters.nLayers = Integer.parseInt(nLayersField.getText());
+                LayerConfiguration.configure(new Stage(), Parameters.nLayers);
             } catch (Exception e) {
                 Alert alertWindow = new Alert(Alert.AlertType.NONE, "default Dialog", ButtonType.OK);
                 alertWindow.setContentText("Invalid number of layers!");
@@ -85,28 +80,17 @@ public class ModelConfiguration {
 
         trainModelButton.setOnAction(actionEvent -> {
             try {
-                parameters.batchSize = Integer.parseInt(batchSizeField.getText());
-                parameters.nEpochs = Integer.parseInt(nEpochsField.getText());
-                parameters.nLayers = Integer.parseInt(nLayersField.getText());
-                LayerConfiguration.configure(new Stage(), parameters.nLayers);
-            } catch (Exception e) {
+                Parameters.batchSize = Integer.parseInt(batchSizeField.getText());
+                Parameters.nEpochs = Integer.parseInt(nEpochsField.getText());
+                Parameters.nLayers = Integer.parseInt(nLayersField.getText());
+                MultiLayerNetwork net = DigitTrainer.buildModel();
+                DigitTrainer.train(net);
+            } catch (IOException e) {
                 Alert alertWindow = new Alert(Alert.AlertType.NONE, "default Dialog", ButtonType.OK);
                 alertWindow.setContentText("Invalid parameters!");
                 alertWindow.setTitle("Error");
                 alertWindow.setGraphic(new ImageView(new Image(Objects.requireNonNull(ModelConfiguration.class.getResourceAsStream("/icons/error.png")))));
                 alertWindow.show();
-            }
-        });
-
-        saveModelButton.setOnAction(actionEvent -> {
-            File savedFile = fChooser.showSaveDialog(new Stage());
-        });
-
-        trainModelButton.setOnAction(actionEvent -> {
-            try {
-                DigitTrainer.train(parameters);
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         });
 

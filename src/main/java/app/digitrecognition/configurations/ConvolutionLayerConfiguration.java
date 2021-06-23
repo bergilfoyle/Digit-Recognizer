@@ -2,6 +2,8 @@ package app.digitrecognition.configurations;
 
 import app.digitrecognition.LayerConfiguration;
 import app.digitrecognition.ModelConfiguration;
+import app.digitrecognition.Parameters;
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -15,6 +17,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class ConvolutionLayerConfiguration {
@@ -28,11 +32,11 @@ public class ConvolutionLayerConfiguration {
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
-        Scene scene = new Scene(root, 600, 300);
+        Scene scene = new Scene(root, 600, 400);
         scene.getStylesheets().add("/styles/style.css");
         primaryStage.setScene(scene);
 
-        Text layerText = new Text("Layer " + i);
+        Text layerText = new Text("Layer " + (i + 1));
         grid.add(layerText, 0, 0);
 
         Label xStrideLabel = new Label("Horizontal Stride: ");
@@ -55,14 +59,21 @@ public class ConvolutionLayerConfiguration {
         TextField nFiltersField = new TextField();
         grid.add(nFiltersField, 1, 4);
 
+        ArrayList<String> propChoiceList = new ArrayList<>(Arrays.asList("IDENTITY", "RELU", "SIGMOID", "TANH"));
+        Label propLabel = new Label("Activation function: ");
+        grid.add(propLabel, 0, 5);
+        ChoiceBox<String> propChoice = new ChoiceBox<>(FXCollections.observableArrayList(propChoiceList));
+        grid.add(propChoice, 1, 5);
+
         Button saveConfiguration = new Button("Save");
         saveConfiguration.setOnAction(actionEvent -> {
             try{
-                LayerConfiguration.parameters.layerType[i] = type;
-                LayerConfiguration.parameters.layerHStride[i] = Integer.parseInt(xStrideField.getText());
-                LayerConfiguration.parameters.layerVStride[i] = Integer.parseInt(yStrideField.getText());
-                LayerConfiguration.parameters.layerFilterSize[i] = Integer.parseInt(filterSizeField.getText());
-                LayerConfiguration.parameters.nFilters[i] = Integer.parseInt(nFiltersField.getText());
+                Parameters.layerType[i] = type;
+                Parameters.layerHStride[i] = Integer.parseInt(xStrideField.getText());
+                Parameters.layerVStride[i] = Integer.parseInt(yStrideField.getText());
+                Parameters.layerFilterSize[i] = Integer.parseInt(filterSizeField.getText());
+                Parameters.nFilters[i] = Integer.parseInt(nFiltersField.getText());
+                Parameters.layerProp[i] = propChoice.getValue();
                 primaryStage.close();
             } catch (Exception e) {
                 Alert alertWindow = new Alert(Alert.AlertType.NONE, "default Dialog", ButtonType.OK);

@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class LayerConfiguration {
-    public static Parameters parameters = ModelConfiguration.parameters;
     public static void configure(Stage primaryStage, int nLayers) throws Exception{
         Label[] layerLabels = new Label[nLayers];
         String[] layerTypes = {"Input", "Convolution", "Pooling", "Dense", "Output"};
@@ -44,7 +43,7 @@ public class LayerConfiguration {
 
         Image configureLayersIcon = new Image(Objects.requireNonNull(ModelConfiguration.class.getResourceAsStream("/icons/settings.png")));
         for (int i = 0; i < nLayers; i++) {
-            layerLabels[i] = new Label("Layer" + (i+1));
+            layerLabels[i] = new Label("Layer " + (i+1));
             choiceBoxes.add(new ChoiceBox<>(FXCollections.observableArrayList(layerTypes)));
             grid.add(layerLabels[i], 0, i);
             grid.add(choiceBoxes.get(i), 1, i);
@@ -86,7 +85,7 @@ public class LayerConfiguration {
         root.setBottom(bottomBox);
 
         saveConfiguration.setOnAction(actionEvent -> {
-            ModelConfiguration.parameters = parameters;
+
             primaryStage.close();
         });
         primaryStage.setTitle("Layer Configuration");

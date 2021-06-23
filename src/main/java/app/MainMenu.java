@@ -71,7 +71,7 @@ public class MainMenu {
             String problem = problemChoice.getValue();
             switch (problem) {
                 case "Digit Recognition" -> {
-                    ModelConfiguration.configureModel(new Stage());
+                    ModelConfiguration.configureModel(primaryStage);
                 }
                 case "Problem 2" -> {
                     System.out.println("boo");

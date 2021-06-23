@@ -1,15 +1,13 @@
 package app.digitrecognition;
 
 public class Parameters {
-    public int maxLayers, nLayers, batchSize, nEpochs;
-    public String[] layerType;
-    public int[] layerHStride, layerVStride, layerFilterSize, nFilters;
-    Parameters() {
-        this.maxLayers = 20;
-        this.layerType = new String[maxLayers];
-        this.layerHStride = new int[maxLayers];
-        this.layerVStride = new int[maxLayers];
-        this.layerFilterSize = new int[maxLayers];
-        this.nFilters = new int[maxLayers];
-    }
+    static public int maxLayers = 20;
+    static public int nLayers, batchSize, nEpochs;
+    static public String[] layerType = new String[maxLayers];
+    static public String[] layerProp = new String[maxLayers];
+    static public String lossType;
+    static public int[] layerHStride = new int[maxLayers];
+    static public int[] layerVStride = new int[maxLayers];
+    static public int[] layerFilterSize = new int[maxLayers];
+    static public int[] nFilters = new int[maxLayers];
 }

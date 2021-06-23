@@ -1,8 +1,8 @@
 package app.digitrecognition.configurations;
 
-import app.digitrecognition.ErrorWindow;
-import app.digitrecognition.LayerConfiguration;
+import app.digitrecognition.Parameters;
 import app.digitrecognition.ModelConfiguration;
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -16,6 +16,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class PoolingLayerConfiguration {
@@ -29,11 +31,11 @@ public class PoolingLayerConfiguration {
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
-        Scene scene = new Scene(root, 600, 250);
+        Scene scene = new Scene(root, 600, 400);
         scene.getStylesheets().add("/styles/style.css");
         primaryStage.setScene(scene);
 
-        Text layerText = new Text("Layer " + i);
+        Text layerText = new Text("Layer " + (i + 1));
         grid.add(layerText, 0, 0);
 
         Label xStrideLabel = new Label("Horizontal Stride: ");
@@ -46,19 +48,26 @@ public class PoolingLayerConfiguration {
         TextField yStrideField = new TextField();
         grid.add(yStrideField, 1, 2);
 
-        Label filterSizeLabel = new Label("Filter size: ");
+        Label filterSizeLabel = new Label("Filter Size: ");
         grid.add(filterSizeLabel, 0, 3);
         TextField filterSizeField = new TextField();
         grid.add(filterSizeField, 1, 3);
+
+        ArrayList<String> propChoiceList = new ArrayList<>(Arrays.asList("AVERAGE", "MAX"));
+        Label propLabel = new Label("Pooling Type: ");
+        grid.add(propLabel, 0, 4);
+        ChoiceBox<String> propChoice = new ChoiceBox<>(FXCollections.observableArrayList(propChoiceList));
+        grid.add(propChoice, 1, 4);
 
         Button saveConfiguration = new Button("Save");
         saveConfiguration.setOnAction(actionEvent -> {
             VBox errorRoot = new VBox();
             try{
-                LayerConfiguration.parameters.layerType[i] = type;
-                LayerConfiguration.parameters.layerHStride[i] = Integer.parseInt(xStrideField.getText());
-                LayerConfiguration.parameters.layerVStride[i] = Integer.parseInt(yStrideField.getText());
-                LayerConfiguration.parameters.layerFilterSize[i] = Integer.parseInt(filterSizeField.getText());
+                Parameters.layerType[i] = type;
+                Parameters.layerHStride[i] = Integer.parseInt(xStrideField.getText());
+                Parameters.layerVStride[i] = Integer.parseInt(yStrideField.getText());
+                Parameters.layerFilterSize[i] = Integer.parseInt(filterSizeField.getText());
+                Parameters.layerProp[i] = propChoice.getValue();
                 primaryStage.close();
             } catch (Exception e) {
                 Alert alertWindow = new Alert(Alert.AlertType.NONE, "default Dialog", ButtonType.OK);
