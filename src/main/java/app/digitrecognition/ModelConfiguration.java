@@ -1,6 +1,5 @@
 package app.digitrecognition;
 import app.MainMenu;
-import app.digitrecognition.trainers.DigitTrainer;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -15,7 +14,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.deeplearning4j.util.ModelSerializer;
-import org.nd4j.common.io.ResourceUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -90,17 +88,16 @@ public class ModelConfiguration {
                 Parameters.batchSize = Integer.parseInt(batchSizeField.getText());
                 Parameters.nEpochs = Integer.parseInt(nEpochsField.getText());
                 Parameters.nLayers = Integer.parseInt(nLayersField.getText());
-                net = DigitTrainer.buildModel();
-                DigitTrainer.train(net);
+                ModelTrainer.buildModel();
+                ModelTrainer.trainModel();
                 message.setText("The model has been trained.");
-            } catch (IOException e) {
+                MainMenu.start(primaryStage);
+            } catch (Exception e) {
                 Alert alertWindow = new Alert(Alert.AlertType.NONE, "default Dialog", ButtonType.OK);
                 alertWindow.setContentText("Invalid parameters!");
                 alertWindow.setTitle("Error");
                 alertWindow.setGraphic(new ImageView(new Image(Objects.requireNonNull(ModelConfiguration.class.getResourceAsStream("/icons/error.png")))));
                 alertWindow.show();
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         });
 
@@ -110,7 +107,7 @@ public class ModelConfiguration {
             File saveLocation = fChooser.showSaveDialog(new Stage());
             try {
                 ModelSerializer.writeModel(net, saveLocation, true);
-                MainMenu.start(primaryStage);
+
             } catch (IOException e) {
                 Alert alertWindow = new Alert(Alert.AlertType.NONE, "default Dialog", ButtonType.OK);
                 alertWindow.setContentText("Unable to save model!");

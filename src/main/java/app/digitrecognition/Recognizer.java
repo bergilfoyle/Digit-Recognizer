@@ -24,27 +24,37 @@ import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.deeplearning4j.util.ModelSerializer;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dataset.api.preprocessor.ImagePreProcessingScaler;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 public class Recognizer {
-    static MultiLayerNetwork model;
-    static private final int CANVAS_WIDTH = 250;
-    static private final int CANVAS_HEIGHT = 250;
-    static private NativeImageLoader loader;
-    static private Label lblResult;
+    private static MultiLayerNetwork model;
+    private static final int CANVAS_WIDTH = 250;
+    private static final int CANVAS_HEIGHT = 250;
+    private static NativeImageLoader loader;
+    private static Label lblResult;
 
+    //to load model after creating
     public static void loadModel(File modelLocation) throws IOException {
         model = MultiLayerNetwork.load(modelLocation, true);
+        ModelTester.setModel(model);
     }
+
+    //to set model while changing
+    public static void setModel(MultiLayerNetwork m) {
+        model = m;
+        ModelTrainer.setModel(m);
+    }
+
     public static void saveModel(MultiLayerNetwork m, File modelLocation) throws IOException {
         FileChooser fChooser = new FileChooser();
         File savedFile = fChooser.showSaveDialog(new Stage());
         ModelSerializer.writeModel(m, savedFile, true);
     }
+
+    //recognizes digit using neural network in the variable 'model'
     public static void recognizedigit(Stage primaryStage) {
         Canvas canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
         ImageView imgView = new ImageView();
@@ -91,6 +101,7 @@ public class Recognizer {
                 e1.printStackTrace();
             }
         });
+
         //canvas event handler
         canvas.setOnMousePressed(e -> {
             ctx.setStroke(Color.WHITE);
@@ -123,6 +134,7 @@ public class Recognizer {
         clear(ctx);
         canvas.requestFocus();
     }
+
     private static BufferedImage getScaledImage(Canvas canvas) {
         // for a better recognition we should improve this part of how we retrieve the image from the canvas
         WritableImage writableImage = new WritableImage(CANVAS_WIDTH, CANVAS_HEIGHT);
