@@ -1,9 +1,9 @@
 package app.menubars;
 
 import app.digitrecognition.ModelConfiguration;
-import app.digitrecognition.ModelTester;
+import app.digitrecognition.ModelHelp;
 import app.digitrecognition.Recognizer;
-import app.digitrecognition.modelinfo.ConfMat;
+import app.digitrecognition.modelinfo.ModelConfusion;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -33,7 +33,11 @@ public class DigitMenuBarBuilder {
         MenuItem confusionMatrix = new MenuItem("Confusion Matrix");
         model.getItems().addAll(change, score, confusionMatrix);
 
-        mb.getMenus().addAll(file, options, model);
+        Menu help = new Menu("Help");
+        MenuItem elp = new MenuItem("Help");
+        MenuItem about = new MenuItem("About");
+        help.getItems().addAll(elp, about);
+        mb.getMenus().addAll(file, options, model, help);
 
         quit.setOnAction(actionEvent -> {
             primaryStage.close();
@@ -43,23 +47,34 @@ public class DigitMenuBarBuilder {
             FileChooser fChooser = new FileChooser();
             fChooser.setInitialDirectory(new File("/home/roger/models"));
             File modelLocation = fChooser.showOpenDialog(new Stage());
-            try {
-                Recognizer.loadModel(modelLocation);
-            } catch (Exception e) {
-                Alert alertWindow = new Alert(Alert.AlertType.NONE, "default Dialog", ButtonType.OK);
-                alertWindow.setContentText("The file is not a model.");
-                alertWindow.setTitle("Error");
-                alertWindow.setGraphic(new ImageView(new Image(Objects.requireNonNull(ModelConfiguration.class.getResourceAsStream("/icons/error.png")))));
-                alertWindow.show();
+            if (modelLocation != null) {
+                try {
+                    Recognizer.loadModel(modelLocation);
+                } catch (Exception e) {
+                    Alert alertWindow = new Alert(Alert.AlertType.NONE, "default Dialog", ButtonType.OK);
+                    alertWindow.setContentText("The file is not a model.");
+                    alertWindow.setTitle("Error");
+                    alertWindow.setGraphic(new ImageView(new Image(Objects.requireNonNull(ModelConfiguration.class.getResourceAsStream("/icons/error.png")))));
+                    alertWindow.show();
+                }
             }
         });
         confusionMatrix.setOnAction(actionEvent -> {
             try {
-                ConfMat.showConfusionMatrix(new Stage());
+                ModelConfusion.showConfusionMatrix(new Stage());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
+
+        elp.setOnAction(actionEvent -> {
+            ModelHelp.help(new Stage());
+        });
+
+        about.setOnAction(actionEvent -> {
+            ModelHelp.help(new Stage());
+        });
+
         return mb;
     }
 }

@@ -23,7 +23,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class MainMenu {
-    public static void start(Stage primaryStage) throws Exception {
+    public static void start(Stage primaryStage) {
         primaryStage.setHeight(500);
         primaryStage.setWidth(500);
         primaryStage.setResizable(false);
@@ -80,19 +80,22 @@ public class MainMenu {
                 }
             }
         });
+
         Text message = new Text();
+        grid.add(message, 0, 2);
         openButton.setOnAction(actionEvent -> {
             File modelLocation = fChooser.showOpenDialog(new Stage());
-            try {
-                Recognizer.loadModel(modelLocation);
-                message.setText("Model " + modelLocation.getName() + " has been loaded.");
-                grid.add(message, 0, 2);
-            } catch (Exception e) {
-                Alert alertWindow = new Alert(Alert.AlertType.NONE, "default Dialog", ButtonType.OK);
-                alertWindow.setContentText("The file is not a model.");
-                alertWindow.setTitle("Error");
-                alertWindow.setGraphic(new ImageView(new Image(Objects.requireNonNull(ModelConfiguration.class.getResourceAsStream("/icons/error.png")))));
-                alertWindow.show();
+            if (modelLocation != null) {
+                try {
+                    Recognizer.loadModel(modelLocation);
+                    message.setText("Model " + modelLocation.getName() + " has been loaded.");
+                } catch (Exception e) {
+                    Alert alertWindow = new Alert(Alert.AlertType.NONE, "default Dialog", ButtonType.OK);
+                    alertWindow.setContentText("The file is not a model.");
+                    alertWindow.setTitle("Error");
+                    alertWindow.setGraphic(new ImageView(new Image(Objects.requireNonNull(ModelConfiguration.class.getResourceAsStream("/icons/error.png")))));
+                    alertWindow.show();
+                }
             }
         });
 

@@ -12,7 +12,7 @@ import org.nd4j.evaluation.classification.Evaluation;
 
 import java.io.IOException;
 
-public class ConfMat {
+public class ModelConfusion {
     public static void showConfusionMatrix(Stage primaryStage) throws IOException {
         primaryStage.setResizable(false);
         BorderPane root = new BorderPane();

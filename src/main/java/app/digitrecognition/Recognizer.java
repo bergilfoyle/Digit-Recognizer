@@ -5,6 +5,10 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
@@ -69,9 +73,11 @@ public class Recognizer {
         lblResult = new Label();
 
         Button predict = new Button("Predict");
+        predict.getStyleClass().add("button2");
         Button clear = new Button("Clear");
-        HBox blist1 = new HBox(10, predict, clear);
-        HBox hbBottom = new HBox(10,canvas, imgView);
+        clear.getStyleClass().add("button2");
+        VBox blist1 = new VBox(10, predict, clear);
+        HBox hbBottom = new HBox(10,canvas, blist1);
         BorderPane root = new BorderPane();
 
         //menu bar
@@ -79,7 +85,7 @@ public class Recognizer {
         root.setTop(menuBar);
 
         //body
-        VBox body = new VBox(5, hbBottom, blist1, lblResult);
+        VBox body = new VBox(5, hbBottom, lblResult);
         body.getStyleClass().add("digitBox");
         root.setCenter(body);
 
@@ -151,14 +157,15 @@ public class Recognizer {
     private static void clear(GraphicsContext ctx) {
         ctx.setFill(Color.BLACK);
         ctx.fillRect(0, 0, 300, 300);
-    }
 
+    }
     //output of model
     private static void predictImage(BufferedImage img) throws IOException {
         ImagePreProcessingScaler scaler = new ImagePreProcessingScaler(0, 1);
         INDArray image = loader.asMatrix(img);
         scaler.transform(image);
         INDArray output = model.output(image);
+        ModelHelp.a = output;
         String putStr = output.argMax().toString();
         lblResult.setText("The drawn number is: " + putStr);
     }
