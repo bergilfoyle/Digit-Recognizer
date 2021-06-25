@@ -4,6 +4,7 @@ import app.digitrecognition.ModelConfiguration;
 import app.digitrecognition.ModelHelp;
 import app.digitrecognition.Recognizer;
 import app.digitrecognition.modelinfo.ModelConfusion;
+import app.digitrecognition.modelinfo.Probability;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -25,7 +26,8 @@ public class DigitMenuBarBuilder {
         Menu options = new Menu("Options");
         MenuItem currentModel = new MenuItem("Current Model");
         MenuItem comapreModels = new MenuItem("Compare Models");
-        options.getItems().addAll(currentModel, comapreModels);
+        MenuItem probability = new MenuItem("Probability");
+        options.getItems().addAll(currentModel, comapreModels, probability);
 
         Menu model = new Menu("Model");
         MenuItem change = new MenuItem("Change");
@@ -75,6 +77,9 @@ public class DigitMenuBarBuilder {
             ModelHelp.help(new Stage());
         });
 
+        probability.setOnAction(actionEvent -> {
+            Probability.plot(new Stage());
+        });
         return mb;
     }
 }

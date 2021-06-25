@@ -1,5 +1,6 @@
 package app.digitrecognition;
 
+import app.digitrecognition.modelinfo.Probability;
 import app.menubars.DigitMenuBarBuilder;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Scene;
@@ -165,7 +166,7 @@ public class Recognizer {
         INDArray image = loader.asMatrix(img);
         scaler.transform(image);
         INDArray output = model.output(image);
-        ModelHelp.a = output;
+        Probability.a = output;
         String putStr = output.argMax().toString();
         lblResult.setText("The drawn number is: " + putStr);
     }
