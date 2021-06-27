@@ -47,7 +47,7 @@ public class ModelConfiguration {
         Button configureLayersButton = new Button();
         Image configureLayersIcon = new Image(Objects.requireNonNull(ModelConfiguration.class.getResourceAsStream("/icons/settings.png")));
         configureLayersButton.setGraphic(new ImageView(configureLayersIcon));
-        configureLayersButton.getStyleClass().add("configurebutton");
+        configureLayersButton.getStyleClass().add("icon-button");
         grid.add(configureLayersButton, 2, 0);
         //input batch size
         Label batchSizeLabel = new Label("Batch Size: ");

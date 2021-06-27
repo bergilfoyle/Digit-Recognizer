@@ -1,6 +1,8 @@
 package app.menubars;
 
+import app.About;
 import app.MainMenu;
+import app.ZoomClass;
 import app.digitrecognition.ModelHelp;
 import com.sun.tools.javac.Main;
 import javafx.scene.control.*;
@@ -16,6 +18,11 @@ public class MainMenuBarBuilder {
         MenuItem quit = new MenuItem("Quit");
         file.getItems().addAll(mainMenu, save, quit);
 
+        Menu view = new Menu("View");
+        MenuItem zoomIn = new MenuItem("Zoom In");
+        MenuItem zoomOut = new MenuItem("Zoom Out");
+        view.getItems().addAll(zoomIn, zoomOut);
+
         Menu options = new Menu("Options");
         MenuItem createmodel = new MenuItem("Create Model");
         MenuItem comapremodels = new MenuItem("Compare Models");
@@ -25,7 +32,7 @@ public class MainMenuBarBuilder {
         MenuItem elp = new MenuItem("Help");
         MenuItem about = new MenuItem("About");
         help.getItems().addAll(elp, about);
-        mb.getMenus().addAll(file, options, help);
+        mb.getMenus().addAll(file, view, options, help);
 
         quit.setOnAction(actionEvent -> {
             primaryStage.close();
@@ -40,9 +47,15 @@ public class MainMenuBarBuilder {
         });
 
         about.setOnAction(actionEvent -> {
-            ModelHelp.help(new Stage());
+            About.showAbout(new Stage());
         });
 
+        zoomIn.setOnAction(actionEvent -> {
+            ZoomClass.zoomIn(primaryStage.getScene().getRoot());
+        });
+        zoomOut.setOnAction(actionEvent -> {
+            ZoomClass.zoomOut(primaryStage.getScene().getRoot());
+        });
         return mb;
     }
 }

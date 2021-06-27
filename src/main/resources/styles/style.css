@@ -1,17 +1,51 @@
 /* changes */
 .context-menu {
--fx-padding: 0; }
+    -fx-padding: 0;
+    -fx-background-color: #f0d9b5;
+}
 
+.menu-bar {
+    -fx-padding: 0;
+    -fx-background-color: #f0d9b5;
+}
+
+.grid-cell {
+    -fx-padding: 0.5em 1em 0.5em 1em;
+}
+.menu {
+    -fx-padding: 0.5em 1em 0.5em 1em;
+}
+.menu-item {
+    -fx-padding: 0.5em 1em 0.5em 1em;
+}
+.choice-box {
+    -fx-background-color: #f0d9b5;
+    -fx-pref-width: 15em;
+    -fx-pref-height: 3em;
+}
+.choice-box .menu-item {
+    -fx-pref-width: 16em;
+    -fx-pref-height: 3em;
+}
+.choice-box:hover {
+    -fx-background-color: #f0d9b5;
+}
 /*bottom hbox and buttons*/
 .bottomBox {
-    -fx-background-color: #0096C9;
+    -fx-background-color: #b58863;
     -fx-padding: 15;
     -fx-spacing: 10;
 }
+
 .bottomBox > .button {
-    -fx-spacing: 0.333333em;
-    -fx-padding: 0.5em 1em 0.5em 1em;
-    -fx-alignment: bottom-right;
+    -fx-pref-height: 3em;
+    -fx-pref-width: 7em;
+    -fx-padding: 5 5 5 5;
+    -fx-background-radius: 8;
+    -fx-background-color: #f0d9b5;
+    -fx-font-weight: bold;
+    -fx-font-size: 1em;
+    -fx-text-fill: #b58863;
 }
 
 .digitBox {
@@ -19,28 +53,33 @@
     -fx-padding: 4 ;
 }
 
+.button {
+    -fx-pref-height: 3em;
+    -fx-pref-width: 7em;
+    -fx-padding: 5 5 5 5;
+    -fx-background-radius: 8;
+    -fx-background-color: #b58863;
+    -fx-font-weight: bold;
+    -fx-font-size: 1em;
+    -fx-text-fill: white;
+}
+
+.button:hover {
+    -fx-background-color: #b08358;
+}
 .button2 {
--fx-pref-height: 28px;
+    -fx-pref-height: 28px;
     -fx-pref-width: 200px;
     -fx-padding: 5 5 5 5;
     /*-fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;*/
     -fx-background-radius: 8;
-    -fx-background-color:
-            linear-gradient(from 0% 93% to 0% 100%, #9b9d9e 0%, #7a7c7d 100%),
-            #7a7c7d,
-            #9b9d9e;
-            /*radial-gradient(center 50% 50%, radius 100%, #7a7c7d, #9b9d9e);*/
-    /*-fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );*/
+    -fx-background-color: #b58863;
     -fx-font-weight: bold;
-    -fx-font-size: 15;
+    -fx-font-size: 1em;
     -fx-text-fill: white;
 }
 .button2:hover {
-    -fx-background-color:
-            linear-gradient(from 0% 93% to 0% 100%, #9b9d9e 0%, #7a7c7d 100%),
-            #7a7c7d,
-            #9b9d9e,
-            radial-gradient(center 50% 50%, radius 100%, #9b9d9e, #7a7c7d);
+    -fx-background-color: #b58860;
 }
 .button2:pressed {
     -fx-padding: 5 5 5 5;
@@ -49,4 +88,35 @@
 .button2 Text {
     -fx-fill: white;
     -fx-effect: dropshadow( gaussian , #a30000 , 0,0,0,2 );
+}
+.root {
+    -fx-base: #f0d9b5;
+    -fx-accent: #b58863;
+    -fx-default-button: #b58863;
+    -fx-focus-color: #b58863;
+    -fx-faint-focus-color: #b58863;
+    -fx-focused-text-base-color : ladder(
+            -fx-selection-bar,
+            -fx-light-text-color 45%,
+            -fx-dark-text-color 46%,
+            -fx-dark-text-color 59%,
+            -fx-mid-text-color 60%
+        );
+    -fx-focused-mark-color : #b58863;
+    -fx-font-family: verdana;
+}
+
+.optionBox {
+    -fx-spacing: 1em;
+}
+
+.icon-button {
+    -fx-padding: 1em 1em 1em 1em;
+    -fx-background-color: transparent;
+}
+
+.text-field {
+    -fx-background-color: #f0d9b5;
+    -fx-pref-width: 15em;
+    -fx-pref-height: 3em;
 }

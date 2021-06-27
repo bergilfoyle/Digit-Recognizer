@@ -26,7 +26,7 @@ public class MainMenu {
     public static void start(Stage primaryStage) {
         primaryStage.setHeight(500);
         primaryStage.setWidth(500);
-        primaryStage.setResizable(false);
+        //primaryStage.setResizable(false);
         BorderPane root = new BorderPane();
         Scene scene = new Scene(root, 1000, 500);
         scene.getStylesheets().add("/styles/style.css");
@@ -37,7 +37,6 @@ public class MainMenu {
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
-
         ArrayList<String> problemTypes = new ArrayList<>(Arrays.asList("Digit Recognition", "Problem 2"));
         Label problemLabel = new Label("Choose the problem: ");
         ChoiceBox<String> problemChoice = new ChoiceBox<>(FXCollections.observableArrayList(problemTypes));
@@ -51,8 +50,9 @@ public class MainMenu {
 
         Button createButton = new Button("Create");
         Button openButton = new Button("Open");
-        HBox buttonBox = new HBox(10, createButton, openButton);
-        grid.add(buttonBox, 1, 1);
+        HBox optionBox = new HBox(createButton, openButton);
+        optionBox.getStyleClass().add("optionBox");
+        grid.add(optionBox, 1, 1);
         MenuBar menuBar = MainMenuBarBuilder.buildMenuBar(primaryStage);
         root.setTop(menuBar);
 
