@@ -23,7 +23,6 @@ import java.util.Objects;
 public class DenseLayerConfiguration {
     public static String type = "Dense";
     public static void configure(Stage primaryStage, int i) {
-        primaryStage.setResizable(false);
         BorderPane root = new BorderPane();
         GridPane grid = new GridPane();
         root.setCenter(grid);

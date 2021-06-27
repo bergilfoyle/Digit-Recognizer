@@ -16,7 +16,6 @@ import java.util.Arrays;
 
 public class ModelHelp {
     public static void help (Stage primaryStage) {
-        primaryStage.setResizable(false);
         BorderPane root = new BorderPane();
         GridPane grid = new GridPane();
         Scene scene  = new Scene(root,800,600);

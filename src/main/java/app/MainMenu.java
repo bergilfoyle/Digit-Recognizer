@@ -24,8 +24,8 @@ import java.util.Objects;
 
 public class MainMenu {
     public static void start(Stage primaryStage) {
-        primaryStage.setHeight(500);
-        primaryStage.setWidth(500);
+        primaryStage.setHeight(800);
+        primaryStage.setWidth(1296);
         //primaryStage.setResizable(false);
         BorderPane root = new BorderPane();
         Scene scene = new Scene(root, 1000, 500);
@@ -43,9 +43,7 @@ public class MainMenu {
         grid.add(problemLabel, 0, 0);
         grid.add(problemChoice, 1, 0);
 
-        ArrayList<String> actionOptions = new ArrayList<>(Arrays.asList("Create Model", "Open Model"));
         Label actionLabel = new Label("Neural network used: ");
-        ChoiceBox<String> actionChoice = new ChoiceBox<>(FXCollections.observableArrayList(actionOptions));
         grid.add(actionLabel, 0, 1);
 
         Button createButton = new Button("Create");
@@ -75,9 +73,7 @@ public class MainMenu {
                         e.printStackTrace();
                     }
                 }
-                case "Problem 2" -> {
-                    System.out.println("boo");
-                }
+                case "Problem 2" -> System.out.println("boo");
             }
         });
 

@@ -14,7 +14,6 @@ import java.io.IOException;
 
 public class ModelConfusion {
     public static void showConfusionMatrix(Stage primaryStage) throws IOException {
-        primaryStage.setResizable(false);
         BorderPane root = new BorderPane();
         GridPane grid = new GridPane();
         root.setCenter(grid);
@@ -22,7 +21,7 @@ public class ModelConfusion {
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
-        Scene scene = new Scene(root, 600, 400);
+        Scene scene = new Scene(root, 800, 800);
         scene.getStylesheets().add("/styles/style.css");
         primaryStage.setScene(scene);
         primaryStage.setTitle("Confusion Matrix");

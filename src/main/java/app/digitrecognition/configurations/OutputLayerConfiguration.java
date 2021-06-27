@@ -21,7 +21,6 @@ import java.util.Objects;
 public class OutputLayerConfiguration {
     public static String type = "Output";
     public static void configure(Stage primaryStage, int i) {
-        primaryStage.setResizable(false);
         BorderPane root = new BorderPane();
         GridPane grid = new GridPane();
         root.setCenter(grid);

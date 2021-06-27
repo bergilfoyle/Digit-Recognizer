@@ -46,7 +46,8 @@ public class LayerConfiguration {
             grid.add(choiceBoxes.get(i), 1, i);
             layerButtons[i] = new Button();
             layerButtons[i].setGraphic(new ImageView(configureLayersIcon));
-            layerButtons[i].getStyleClass().add("configurebutton");
+            layerButtons[i].getStyleClass().remove("button");
+            layerButtons[i].getStyleClass().add("icon-button");
             grid.add(layerButtons[i], 2, i);
         }
         for (int i = 0; i < nLayers; i++) {

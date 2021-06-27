@@ -186,6 +186,7 @@ public class ModelTrainer {
         // iteration #, learning rate
 
         model.init();
+        System.out.println(model.getLayerNames());
         model.setListeners(new ScoreIterationListener(10));
         LOGGER.info("Total num of params: {}", model.numParams());
 
@@ -195,8 +196,6 @@ public class ModelTrainer {
             LOGGER.info("Completed epoch {}", i);
             eval = model.evaluate(testIter);
             LOGGER.info(eval.stats());
-            String s = eval.stats();
-            FileUtils.writeStringToFile(new File("/home/roger/check.txt"), s, StandardCharsets.UTF_8);
             trainIter.reset();
             testIter.reset();
         }

@@ -1,4 +1,5 @@
 package app.digitrecognition;
+
 import app.MainMenu;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -15,17 +16,13 @@ import javafx.stage.Stage;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.deeplearning4j.util.ModelSerializer;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.Objects;
 
 public class ModelConfiguration {
-    public static MultiLayerNetwork net;
     public static void configureModel(Stage primaryStage) throws FileNotFoundException {
-        primaryStage.setHeight(500);
-        primaryStage.setWidth(500);
-        primaryStage.setResizable(false);
+        primaryStage.setHeight(800);
+        primaryStage.setWidth(1296);
         BorderPane root = new BorderPane();
         GridPane grid = new GridPane();
         root.setCenter(grid);
@@ -47,6 +44,7 @@ public class ModelConfiguration {
         Button configureLayersButton = new Button();
         Image configureLayersIcon = new Image(Objects.requireNonNull(ModelConfiguration.class.getResourceAsStream("/icons/settings.png")));
         configureLayersButton.setGraphic(new ImageView(configureLayersIcon));
+        configureLayersButton.getStyleClass().remove("button");
         configureLayersButton.getStyleClass().add("icon-button");
         grid.add(configureLayersButton, 2, 0);
         //input batch size
@@ -65,6 +63,18 @@ public class ModelConfiguration {
 
         Text message = new Text();
         grid.add(message, 0, 3);
+
+        Button backButton = new Button();
+        Image backIcon = new Image(Objects.requireNonNull(ModelConfiguration.class.getResourceAsStream("/icons/back.png")));
+        backButton.setGraphic(new ImageView(backIcon));
+        backButton.getStyleClass().remove("button");
+        backButton.getStyleClass().add("icon-button");
+        root.setTop(backButton);
+        backButton.setOnAction(actionEvent -> {
+            MainMenu.start(primaryStage);
+        });
+        backButton.setTooltip(new Tooltip("Back to Main Menu"));
+        configureLayersButton.setTooltip(new Tooltip("Configure Layers"));
         configureLayersButton.setOnAction(actionEvent -> {
             try {
                 Parameters.nLayers = Integer.parseInt(nLayersField.getText());
@@ -78,9 +88,9 @@ public class ModelConfiguration {
             }
         });
 
-        Button saveModelButton = new Button("Save Model");
+        Button saveModelButton = new Button("Save");
         saveModelButton.getStyleClass().add("button2");
-        Button trainModelButton = new Button("Train Model");
+        Button trainModelButton = new Button("Train");
         trainModelButton.getStyleClass().add("button2");
 
         trainModelButton.setOnAction(actionEvent -> {
@@ -88,10 +98,8 @@ public class ModelConfiguration {
                 Parameters.batchSize = Integer.parseInt(batchSizeField.getText());
                 Parameters.nEpochs = Integer.parseInt(nEpochsField.getText());
                 Parameters.nLayers = Integer.parseInt(nLayersField.getText());
-                ModelTrainer.buildModel();
-                ModelTrainer.trainModel();
+                TrainStatus.showStatus(new Stage());
                 message.setText("The model has been trained.");
-                MainMenu.start(primaryStage);
             } catch (Exception e) {
                 Alert alertWindow = new Alert(Alert.AlertType.NONE, "default Dialog", ButtonType.OK);
                 alertWindow.setContentText("Invalid parameters!");
@@ -106,8 +114,7 @@ public class ModelConfiguration {
         saveModelButton.setOnAction(actionEvent -> {
             File saveLocation = fChooser.showSaveDialog(new Stage());
             try {
-                ModelSerializer.writeModel(net, saveLocation, true);
-
+                ModelSerializer.writeModel(ModelTrainer.getModel(), saveLocation, true);
             } catch (IOException e) {
                 Alert alertWindow = new Alert(Alert.AlertType.NONE, "default Dialog", ButtonType.OK);
                 alertWindow.setContentText("Unable to save model!");
