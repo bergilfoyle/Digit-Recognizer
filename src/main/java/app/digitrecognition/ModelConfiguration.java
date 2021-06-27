@@ -13,9 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.deeplearning4j.util.ModelSerializer;
-
 import java.io.*;
 import java.util.Objects;
 
@@ -70,9 +68,7 @@ public class ModelConfiguration {
         backButton.getStyleClass().remove("button");
         backButton.getStyleClass().add("icon-button");
         root.setTop(backButton);
-        backButton.setOnAction(actionEvent -> {
-            MainMenu.start(primaryStage);
-        });
+        backButton.setOnAction(actionEvent -> MainMenu.start(primaryStage));
         backButton.setTooltip(new Tooltip("Back to Main Menu"));
         configureLayersButton.setTooltip(new Tooltip("Configure Layers"));
         configureLayersButton.setOnAction(actionEvent -> {

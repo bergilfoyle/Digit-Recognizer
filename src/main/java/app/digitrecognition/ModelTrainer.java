@@ -1,9 +1,5 @@
 package app.digitrecognition;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import org.apache.commons.io.FileUtils;
+
 import org.datavec.api.io.labels.ParentPathLabelGenerator;
 import org.datavec.api.split.FileSplit;
 import org.datavec.image.loader.NativeImageLoader;
@@ -31,10 +27,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Random;
 
 import static app.digitrecognition.Parameters.*;
@@ -47,6 +41,23 @@ public class ModelTrainer {
     private static final String BASE_PATH = "/home/roger";
     private static final int height = 28, width = 28, channels = 1;
 
+    public static void setScaler() throws IOException {
+        int seed = 1234;
+        Random randNumGen = new Random(seed);
+        LOGGER.info("Data vectorization...");
+
+        // vectorization of train data
+        File trainData = new File(BASE_PATH + "/mnist_png/training");
+        FileSplit trainSplit = new FileSplit(trainData, NativeImageLoader.ALLOWED_FORMATS, randNumGen);
+        ParentPathLabelGenerator labelMaker = new ParentPathLabelGenerator(); // use parent directory name as the image label
+        ImageRecordReader trainRR = new ImageRecordReader(height, width, channels, labelMaker);
+        trainRR.initialize(trainSplit);
+        DataSetIterator trainIter = new RecordReaderDataSetIterator(trainRR, batchSize, 1, 10);
+
+        // pixel values from 0-255 to 0-1 (min-max scaling)
+        imageScaler = new ImagePreProcessingScaler();
+        imageScaler.fit(trainIter);
+    }
     public static DataNormalization getScaler() { return imageScaler; }
     public static MultiLayerNetwork getModel() {
         return model;

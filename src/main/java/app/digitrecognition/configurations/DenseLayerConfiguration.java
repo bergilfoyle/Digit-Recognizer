@@ -1,6 +1,5 @@
 package app.digitrecognition.configurations;
 
-import app.digitrecognition.LayerConfiguration;
 import app.digitrecognition.ModelConfiguration;
 import app.digitrecognition.Parameters;
 import javafx.collections.FXCollections;

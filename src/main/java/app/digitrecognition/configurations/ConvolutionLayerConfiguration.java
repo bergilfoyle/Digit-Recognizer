@@ -1,6 +1,5 @@
 package app.digitrecognition.configurations;
 
-import app.digitrecognition.LayerConfiguration;
 import app.digitrecognition.ModelConfiguration;
 import app.digitrecognition.Parameters;
 import javafx.collections.FXCollections;
@@ -13,7 +12,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 

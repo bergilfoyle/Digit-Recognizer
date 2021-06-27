@@ -60,7 +60,6 @@ public class PoolingLayerConfiguration {
 
         Button saveConfiguration = new Button("Save");
         saveConfiguration.setOnAction(actionEvent -> {
-            VBox errorRoot = new VBox();
             try{
                 Parameters.layerType[i] = type;
                 Parameters.layerHStride[i] = Integer.parseInt(xStrideField.getText());

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class LayerConfiguration {
-    public static void configure(Stage primaryStage, int nLayers) throws Exception{
+    public static void configure(Stage primaryStage, int nLayers) {
         Label[] layerLabels = new Label[nLayers];
         String[] layerTypes = {"Input", "Convolution", "Pooling", "Dense", "Output"};
         Button[] layerButtons = new Button[nLayers];
@@ -55,12 +55,8 @@ public class LayerConfiguration {
             layerButtons[i].setOnAction(actionEvent -> {
                 try {
                     switch (choiceBoxes.get(finalI).getValue()) {
-                        case "Input" -> {
-                            InputLayerConfiguration.configure(new Stage(), finalI);
-                        }
-                        case "Convolution" -> {
-                            ConvolutionLayerConfiguration.configure(new Stage(), finalI);
-                        }
+                        case "Input" -> InputLayerConfiguration.configure(new Stage(), finalI);
+                        case "Convolution" -> ConvolutionLayerConfiguration.configure(new Stage(), finalI);
                         case "Pooling" -> PoolingLayerConfiguration.configure(new Stage(), finalI);
                         case "Dense" -> DenseLayerConfiguration.configure(new Stage(), finalI);
                         case "Output" -> OutputLayerConfiguration.configure(new Stage(), finalI);
@@ -82,10 +78,7 @@ public class LayerConfiguration {
         bottomBox.getStyleClass().add("bottomBox");
         root.setBottom(bottomBox);
 
-        saveConfiguration.setOnAction(actionEvent -> {
-
-            primaryStage.close();
-        });
+        saveConfiguration.setOnAction(actionEvent -> primaryStage.close());
         primaryStage.setTitle("Layer Configuration");
         primaryStage.show();
     }

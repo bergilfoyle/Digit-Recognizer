@@ -1,6 +1,5 @@
 package app.digitrecognition;
 
-import org.apache.commons.io.FileUtils;
 import org.datavec.api.io.labels.ParentPathLabelGenerator;
 import org.datavec.api.split.FileSplit;
 import org.datavec.image.loader.NativeImageLoader;
@@ -12,7 +11,6 @@ import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
 import org.nd4j.linalg.dataset.api.preprocessor.DataNormalization;
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Random;
 
 import static app.digitrecognition.Parameters.batchSize;
@@ -43,10 +41,9 @@ public class ModelTester {
         ImageRecordReader testRR = new ImageRecordReader(height, width, channels, labelMaker);
         testRR.initialize(testSplit);
         DataSetIterator testIter = new RecordReaderDataSetIterator(testRR, batchSize, 1, 10);
+        ModelTrainer.setScaler();
+        setScaler(ModelTrainer.getScaler());
         testIter.setPreProcessor(imageScaler);
-
         eval = model.evaluate(testIter);
-        String s = eval.stats();
-        FileUtils.writeStringToFile(new File("/home/roger/check.txt"), s, StandardCharsets.UTF_8);
     }
 }
