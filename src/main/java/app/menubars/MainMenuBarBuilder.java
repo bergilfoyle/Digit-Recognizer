@@ -4,7 +4,7 @@ import app.About;
 import app.MainMenu;
 import app.ZoomClass;
 import app.digitrecognition.ModelHelp;
-import com.sun.tools.javac.Main;
+import app.digitrecognition.ModelSelector;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
@@ -14,9 +14,8 @@ public class MainMenuBarBuilder {
 
         Menu file = new Menu("File");
         MenuItem mainMenu = new MenuItem("Main Menu");
-        MenuItem save = new MenuItem("Save");
         MenuItem quit = new MenuItem("Quit");
-        file.getItems().addAll(mainMenu, save, quit);
+        file.getItems().addAll(mainMenu, quit);
 
         Menu view = new Menu("View");
         MenuItem zoomIn = new MenuItem("Zoom In");
@@ -25,8 +24,8 @@ public class MainMenuBarBuilder {
 
         Menu options = new Menu("Options");
         MenuItem createmodel = new MenuItem("Create Model");
-        MenuItem comapremodels = new MenuItem("Compare Models");
-        options.getItems().addAll(createmodel, comapremodels);
+        MenuItem compareModels = new MenuItem("Compare Models");
+        options.getItems().addAll(createmodel, compareModels);
 
         Menu help = new Menu("Help");
         MenuItem elp = new MenuItem("Help");
@@ -42,6 +41,9 @@ public class MainMenuBarBuilder {
                 MainMenu.start(primaryStage);
         });
 
+        compareModels.setOnAction(actionEvent -> {
+            ModelSelector.select(new Stage());
+        });
         elp.setOnAction(actionEvent -> {
             ModelHelp.help(new Stage());
         });

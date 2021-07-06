@@ -73,8 +73,8 @@ public class ModelConfiguration {
         configureLayersButton.setTooltip(new Tooltip("Configure Layers"));
         configureLayersButton.setOnAction(actionEvent -> {
             try {
-                Parameters.nLayers = Integer.parseInt(nLayersField.getText());
-                LayerConfiguration.configure(new Stage(), Parameters.nLayers);
+                Parameter.nLayers = Integer.parseInt(nLayersField.getText());
+                LayerConfiguration.configure(new Stage(), Parameter.nLayers);
             } catch (Exception e) {
                 Alert alertWindow = new Alert(Alert.AlertType.NONE, "default Dialog", ButtonType.OK);
                 alertWindow.setContentText("Invalid number of layers!");
@@ -91,9 +91,9 @@ public class ModelConfiguration {
 
         trainModelButton.setOnAction(actionEvent -> {
             try {
-                Parameters.batchSize = Integer.parseInt(batchSizeField.getText());
-                Parameters.nEpochs = Integer.parseInt(nEpochsField.getText());
-                Parameters.nLayers = Integer.parseInt(nLayersField.getText());
+                Parameter.batchSize = Integer.parseInt(batchSizeField.getText());
+                Parameter.nEpochs = Integer.parseInt(nEpochsField.getText());
+                Parameter.nLayers = Integer.parseInt(nLayersField.getText());
                 TrainStatus.showStatus(new Stage());
                 message.setText("The model has been trained.");
             } catch (Exception e) {

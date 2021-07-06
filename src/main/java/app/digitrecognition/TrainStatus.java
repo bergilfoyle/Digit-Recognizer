@@ -105,7 +105,9 @@ public class TrainStatus {
         primaryStage.setOnCloseRequest(actionEvent -> {
             try {
                 Thread.currentThread().interrupt();
+                Thread.currentThread().join();
                 exit = true;
+                halt();
                 throw new InterruptedException();
             } catch (InterruptedException e) {
                 primaryStage.close();

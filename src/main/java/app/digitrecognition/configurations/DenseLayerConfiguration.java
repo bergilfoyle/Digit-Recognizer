@@ -1,7 +1,7 @@
 package app.digitrecognition.configurations;
 
 import app.digitrecognition.ModelConfiguration;
-import app.digitrecognition.Parameters;
+import app.digitrecognition.Parameter;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -50,9 +50,9 @@ public class DenseLayerConfiguration {
         Button saveConfiguration = new Button("Save");
         saveConfiguration.setOnAction(actionEvent -> {
             try{
-                Parameters.layerType[i] = type;
-                Parameters.nFilters[i] = Integer.parseInt(nFiltersField.getText());
-                Parameters.layerProp[i] = propChoice.getValue();
+                Parameter.layerType[i] = type;
+                Parameter.nFilters[i] = Integer.parseInt(nFiltersField.getText());
+                Parameter.layerProp[i] = propChoice.getValue();
                 primaryStage.close();
             } catch (Exception e) {
                 Alert alertWindow = new Alert(Alert.AlertType.NONE, "default Dialog", ButtonType.OK);

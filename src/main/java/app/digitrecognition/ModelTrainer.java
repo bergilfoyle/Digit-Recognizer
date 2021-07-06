@@ -31,7 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import static app.digitrecognition.Parameters.*;
+import static app.digitrecognition.Parameter.*;
 
 public class ModelTrainer {
     private static DataNormalization imageScaler;

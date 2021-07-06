@@ -27,7 +27,7 @@ public class ModelConfusion {
         primaryStage.setTitle("Confusion Matrix");
         Text t = new Text();
         ModelTester.testModel();
-        Evaluation eval = ModelTester.getEvalualtion();
+        Evaluation eval = ModelTester.getEvaluation();
         t.setText(eval.confusionMatrix());
         grid.add(t, 0, 0);
         primaryStage.show();

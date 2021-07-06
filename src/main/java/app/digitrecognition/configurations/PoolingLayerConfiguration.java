@@ -1,6 +1,6 @@
 package app.digitrecognition.configurations;
 
-import app.digitrecognition.Parameters;
+import app.digitrecognition.Parameter;
 import app.digitrecognition.ModelConfiguration;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
@@ -12,7 +12,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -61,11 +60,11 @@ public class PoolingLayerConfiguration {
         Button saveConfiguration = new Button("Save");
         saveConfiguration.setOnAction(actionEvent -> {
             try{
-                Parameters.layerType[i] = type;
-                Parameters.layerHStride[i] = Integer.parseInt(xStrideField.getText());
-                Parameters.layerVStride[i] = Integer.parseInt(yStrideField.getText());
-                Parameters.layerFilterSize[i] = Integer.parseInt(filterSizeField.getText());
-                Parameters.layerProp[i] = propChoice.getValue();
+                Parameter.layerType[i] = type;
+                Parameter.layerHStride[i] = Integer.parseInt(xStrideField.getText());
+                Parameter.layerVStride[i] = Integer.parseInt(yStrideField.getText());
+                Parameter.layerFilterSize[i] = Integer.parseInt(filterSizeField.getText());
+                Parameter.layerProp[i] = propChoice.getValue();
                 primaryStage.close();
             } catch (Exception e) {
                 Alert alertWindow = new Alert(Alert.AlertType.NONE, "default Dialog", ButtonType.OK);

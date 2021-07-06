@@ -13,7 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
-import static app.digitrecognition.Parameters.batchSize;
+import static app.digitrecognition.Parameter.batchSize;
 
 public class ModelTester {
     private static final String BASE_PATH = "/home/roger";
@@ -27,7 +27,7 @@ public class ModelTester {
 
     public static void setModel(MultiLayerNetwork model) { ModelTester.model = model; }
 
-    public static Evaluation getEvalualtion() {
+    public static Evaluation getEvaluation() {
         return eval;
     }
 
