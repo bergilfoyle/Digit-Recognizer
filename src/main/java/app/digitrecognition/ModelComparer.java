@@ -241,14 +241,14 @@ public class ModelComparer {
         scaler.transform(image);
 
         INDArray output1 = model1.output(image);
-        Probability.a = output1;
+        Probability.a1 = output1;
         String putStr1 = output1.argMax().toString();
-        lblResult1.setText("The drawn number is " + putStr1);
+        lblResult1.setText("Neural Network 1: The drawn number is " + putStr1);
 
         INDArray output2 = model2.output(image);
-        Probability.a = output2;
+        Probability.a2 = output2;
         String putStr2 = output2.argMax().toString();
-        lblResult2.setText("The drawn number is " + putStr2);
+        lblResult2.setText("Neural Network 2: The drawn number is " + putStr2);
     }
 
     private static void saveImage(Canvas canvas) throws IOException {

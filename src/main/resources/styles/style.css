@@ -182,3 +182,8 @@
     -fx-background-color: white;
     -fx-background-radius: 5em;
 }
+
+.canvas {
+    -fx-background-insets: 0, 20;
+    -fx-padding: 20;
+}

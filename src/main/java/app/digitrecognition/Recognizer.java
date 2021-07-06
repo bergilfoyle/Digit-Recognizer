@@ -1,6 +1,7 @@
 package app.digitrecognition;
 
 import app.About;
+import app.MainMenu;
 import app.ZoomClass;
 import app.digitrecognition.modelinfo.ModelConfusion;
 import app.digitrecognition.modelinfo.Probability;
@@ -80,8 +81,9 @@ public class Recognizer {
         MenuBar mb = new MenuBar();
         Menu file = new Menu("File");
         MenuItem save = new MenuItem("Save");
+        MenuItem mainMenu = new MenuItem("Main Menu");
         MenuItem quit = new MenuItem("Quit");
-        file.getItems().addAll(save, quit);
+        file.getItems().addAll(save, mainMenu, quit);
 
         Menu view = new Menu("View");
         MenuItem zoomIn = new MenuItem("Zoom In");
@@ -117,6 +119,9 @@ public class Recognizer {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        });
+        mainMenu.setOnAction(actionEvent -> {
+            MainMenu.start(primaryStage);
         });
         quit.setOnAction(actionEvent -> primaryStage.close());
 
@@ -232,7 +237,7 @@ public class Recognizer {
         INDArray image = loader.asMatrix(img);
         scaler.transform(image);
         INDArray output = model.output(image);
-        Probability.a = output;
+        Probability.a1 = output;
         String putStr = output.argMax().toString();
         lblResult.setText("The drawn number is " + putStr);
     }

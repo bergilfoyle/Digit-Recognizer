@@ -13,7 +13,8 @@ import javafx.stage.Stage;
 import org.nd4j.linalg.api.ndarray.INDArray;
 
 public class Probability {
-    public static INDArray a;
+    public static INDArray a1;
+    public static INDArray a2;
     public static void plot(Stage primaryStage) {
         primaryStage.setResizable(false);
         BorderPane root = new BorderPane();
@@ -27,14 +28,23 @@ public class Probability {
         yAxis.setLabel("Probability");
 
         String[] labels = new String[] {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
-        float[] b = a.toFloatVector();
+        float[] b1 = a1.toFloatVector();
         XYChart.Series<String, Number> series1 = new XYChart.Series<>();
         for (int i = 0; i < 10; i++)
-            series1.getData().add(new XYChart.Data<>(labels[i], b[i]));
+            series1.getData().add(new XYChart.Data<>(labels[i], b1[i]));
 
-        series1.setName("Probability");
+        series1.setName("1");
         Scene scene  = new Scene(root,800,600);
         bc.getData().add(series1);
+
+        if (a2 != null) {
+            float[] b2 = a2.toFloatVector();
+            XYChart.Series<String, Number> series2 = new XYChart.Series<>();
+            for (int i = 0; i < 10; i++)
+                series2.getData().add(new XYChart.Data<>(labels[i], b2[i]));
+            bc.getData().add(series2);
+            series2.setName("2");
+        }
         root.setCenter(bc);
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
