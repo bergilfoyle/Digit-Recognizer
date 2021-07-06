@@ -56,6 +56,10 @@ public class ModelComparer {
         model2 = MultiLayerNetwork.load(modelLocation, true);
         ModelTester.setModel(model2);
     }
+
+    public static void setNull() {
+        model2 = null;
+    }
     //recognizes digit using neural network in the variable 'model'
     public static void recognizedigit(Stage primaryStage) {
         primaryStage.setHeight(600);

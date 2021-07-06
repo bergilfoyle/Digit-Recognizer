@@ -1,5 +1,8 @@
 package app.digitrecognition;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.image.ImageView;
 import org.datavec.api.io.labels.ParentPathLabelGenerator;
 import org.datavec.api.split.FileSplit;
 import org.datavec.image.loader.NativeImageLoader;
@@ -29,6 +32,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 
 import static app.digitrecognition.Parameter.*;
@@ -67,7 +71,7 @@ public class ModelTrainer {
         return eval;
     }
 
-    public static void buildModel() {
+    public static void buildModel() throws Exception{
         int seed = 1234;
         Map<Integer, Double> learningRateSchedule = new HashMap<>();
         learningRateSchedule.put(0, 0.06);
@@ -82,85 +86,85 @@ public class ModelTrainer {
                 .weightInit(WeightInit.XAVIER)
                 .list();
         for (int i = 0; i < nLayers; i++) {
-            switch (layerType[i]) {
-                case "Input" -> {
-                    Activation a;
-                    switch(layerProp[i]) {
-                        case "RELU" -> a = Activation.RELU;
-                        case "IDENTITY" -> a = Activation.IDENTITY;
-                        case "SIGMOID" -> a = Activation.SIGMOID;
-                        case "TANH" -> a=Activation.TANH;
-                        default -> throw new IllegalStateException("Unexpected value: " + layerProp[i]);
+                switch (layerType[i]) {
+                    case "Input" -> {
+                        Activation a;
+                        switch (layerProp[i]) {
+                            case "RELU" -> a = Activation.RELU;
+                            case "IDENTITY" -> a = Activation.IDENTITY;
+                            case "SIGMOID" -> a = Activation.SIGMOID;
+                            case "TANH" -> a = Activation.TANH;
+                            default -> throw new IllegalStateException("Unexpected value: " + layerProp[i]);
+                        }
+                        b.layer(i, new ConvolutionLayer.Builder(layerFilterSize[i], layerFilterSize[i])
+                                .nIn(1)
+                                .stride(layerHStride[i], layerVStride[i])
+                                .activation(a)
+                                .nOut(nFilters[i]).build());
                     }
-                    b.layer(i, new ConvolutionLayer.Builder(layerFilterSize[i], layerFilterSize[i])
-                            .nIn(1)
-                            .stride(layerHStride[i], layerVStride[i])
-                            .activation(a)
-                            .nOut(nFilters[i]).build());
-                }
-                case "Convolution" -> {
-                    Activation a;
-                    switch(layerProp[i]) {
-                        case "RELU" -> a = Activation.RELU;
-                        case "IDENTITY" -> a = Activation.IDENTITY;
-                        case "SIGMOID" -> a = Activation.SIGMOID;
-                        case "TANH" -> a=Activation.TANH;
-                        default -> throw new IllegalStateException("Unexpected value: " + layerProp[i]);
+                    case "Convolution" -> {
+                        Activation a;
+                        switch (layerProp[i]) {
+                            case "RELU" -> a = Activation.RELU;
+                            case "IDENTITY" -> a = Activation.IDENTITY;
+                            case "SIGMOID" -> a = Activation.SIGMOID;
+                            case "TANH" -> a = Activation.TANH;
+                            default -> throw new IllegalStateException("Unexpected value: " + layerProp[i]);
+                        }
+                        b.layer(i, new ConvolutionLayer.Builder(layerFilterSize[i], layerFilterSize[i])
+                                .stride(layerHStride[i], layerVStride[i])
+                                .activation(a)
+                                .nOut(nFilters[i]).build());
                     }
-                    b.layer(i, new ConvolutionLayer.Builder(layerFilterSize[i], layerFilterSize[i])
-                            .stride(layerHStride[i], layerVStride[i])
-                            .activation(a)
-                            .nOut(nFilters[i]).build());
-                }
-                case "Pooling" -> {
-                    SubsamplingLayer.PoolingType p;
-                    switch (layerProp[i]) {
-                        case "AVERAGE" -> p = SubsamplingLayer.PoolingType.AVG;
-                        case "MAX" -> p = SubsamplingLayer.PoolingType.MAX;
-                        default -> throw new IllegalStateException("Unexpected value: " + layerProp[i]);
+                    case "Pooling" -> {
+                        SubsamplingLayer.PoolingType p;
+                        switch (layerProp[i]) {
+                            case "AVERAGE" -> p = SubsamplingLayer.PoolingType.AVG;
+                            case "MAX" -> p = SubsamplingLayer.PoolingType.MAX;
+                            default -> throw new IllegalStateException("Unexpected value: " + layerProp[i]);
+                        }
+                        b.layer(i, new SubsamplingLayer.Builder(p)
+                                .kernelSize(layerFilterSize[i], layerFilterSize[i])
+                                .stride(layerHStride[i], layerVStride[i])
+                                .build());
                     }
-                    b.layer(i, new SubsamplingLayer.Builder(p)
-                            .kernelSize(layerFilterSize[i], layerFilterSize[i])
-                            .stride(layerHStride[i], layerVStride[i])
-                            .build());
-                }
-                case "Dense" -> {
-                    Activation a;
-                    switch(layerProp[i]) {
-                        case "RELU" -> a = Activation.RELU;
-                        case "IDENTITY" -> a = Activation.IDENTITY;
-                        case "SIGMOID" -> a = Activation.SIGMOID;
-                        case "TANH" -> a=Activation.TANH;
-                        default -> throw new IllegalStateException("Unexpected value: " + layerProp[i]);
+                    case "Dense" -> {
+                        Activation a;
+                        switch (layerProp[i]) {
+                            case "RELU" -> a = Activation.RELU;
+                            case "IDENTITY" -> a = Activation.IDENTITY;
+                            case "SIGMOID" -> a = Activation.SIGMOID;
+                            case "TANH" -> a = Activation.TANH;
+                            default -> throw new IllegalStateException("Unexpected value: " + layerProp[i]);
+                        }
+                        b.layer(i, new DenseLayer.Builder()
+                                .activation(a)
+                                .nOut(nFilters[i]).build());
                     }
-                    b.layer(i, new DenseLayer.Builder()
-                            .activation(a)
-                            .nOut(nFilters[i]).build());
-                }
-                case "Output" -> {
-                    Activation a;
-                    LossFunctions.LossFunction l;
-                    switch(layerProp[i]) {
-                        case "RELU" -> a = Activation.RELU;
-                        case "IDENTITY" -> a = Activation.IDENTITY;
-                        case "SIGMOID" -> a = Activation.SIGMOID;
-                        case "TANH" -> a=Activation.TANH;
-                        case "SOFTMAX" -> a=Activation.SOFTMAX;
-                        default -> throw new IllegalStateException("Unexpected value: " + layerProp[i]);
+                    case "Output" -> {
+                        Activation a;
+                        LossFunctions.LossFunction l;
+                        switch (layerProp[i]) {
+                            case "RELU" -> a = Activation.RELU;
+                            case "IDENTITY" -> a = Activation.IDENTITY;
+                            case "SIGMOID" -> a = Activation.SIGMOID;
+                            case "TANH" -> a = Activation.TANH;
+                            case "SOFTMAX" -> a = Activation.SOFTMAX;
+                            default -> throw new IllegalStateException("Unexpected value: " + layerProp[i]);
+                        }
+                        switch (lossType) {
+                            case "MSE" -> l = LossFunctions.LossFunction.MSE;
+                            case "MAE" -> l = LossFunctions.LossFunction.MEAN_ABSOLUTE_ERROR;
+                            case "NEGATIVELOGLIKELIHOOD" -> l = LossFunctions.LossFunction.NEGATIVELOGLIKELIHOOD;
+                            default -> throw new IllegalStateException("Unexpected value: " + lossType);
+                        }
+                        b.layer(i, new OutputLayer.Builder(l)
+                                .nOut(10)
+                                .activation(a)
+                                .build());
                     }
-                    switch(lossType) {
-                        case "MSE" -> l = LossFunctions.LossFunction.MSE;
-                        case "MAE" -> l = LossFunctions.LossFunction.MEAN_ABSOLUTE_ERROR;
-                        case "NEGATIVELOGLIKELIHOOD" -> l = LossFunctions.LossFunction.NEGATIVELOGLIKELIHOOD;
-                        default -> throw new IllegalStateException("Unexpected value: " + lossType);
-                    }
-                    b.layer(i, new OutputLayer.Builder(l)
-                            .nOut(10)
-                            .activation(a)
-                            .build());
                 }
             }
-        }
         b.setInputType(InputType.convolutionalFlat(height, width, channels)); // InputType.convolutional for normal image
         MultiLayerConfiguration conf = b.build();
         model = new MultiLayerNetwork(conf);

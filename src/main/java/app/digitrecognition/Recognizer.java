@@ -53,6 +53,8 @@ public class Recognizer {
 
     //recognizes digit using neural network in the variable 'model'
     public static void recognizedigit(Stage primaryStage) {
+        ModelComparer.setNull();
+        Probability.a2 = null;
         primaryStage.setHeight(600);
         primaryStage.setWidth(600);
         Canvas canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);

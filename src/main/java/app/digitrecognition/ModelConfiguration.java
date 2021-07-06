@@ -94,8 +94,16 @@ public class ModelConfiguration {
                 Parameter.batchSize = Integer.parseInt(batchSizeField.getText());
                 Parameter.nEpochs = Integer.parseInt(nEpochsField.getText());
                 Parameter.nLayers = Integer.parseInt(nLayersField.getText());
-                TrainStatus.showStatus(new Stage());
-                message.setText("The model has been trained.");
+                try {
+                    ModelTrainer.buildModel();
+                    TrainStatus.showStatus(new Stage());
+                } catch (Exception e) {
+                    Alert alertWindow = new Alert(Alert.AlertType.NONE, "default Dialog", ButtonType.OK);
+                    alertWindow.setContentText("Image Saved.");
+                    alertWindow.setTitle("Success");
+                    alertWindow.setGraphic(new ImageView(new javafx.scene.image.Image(Objects.requireNonNull(ModelConfiguration.class.getResourceAsStream("/icons/success.png")))));
+                    alertWindow.show();
+                }
             } catch (Exception e) {
                 Alert alertWindow = new Alert(Alert.AlertType.NONE, "default Dialog", ButtonType.OK);
                 alertWindow.setContentText("Invalid parameters!");
@@ -103,6 +111,7 @@ public class ModelConfiguration {
                 alertWindow.setGraphic(new ImageView(new Image(Objects.requireNonNull(ModelConfiguration.class.getResourceAsStream("/icons/error.png")))));
                 alertWindow.show();
             }
+            message.setText("The model has been trained.");
         });
 
         FileChooser fChooser = new FileChooser();
